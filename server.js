@@ -17,16 +17,102 @@ app.get('/ui/madi.png', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'madi.png'));
 });
 
-app.get('/article-one', function (req, res) {
-  res.sendFile(path.join(_dirname, 'ui', 'article-one.html'));
-});
 
-app.get('/article-two', function (req, res) {
-  res.sendFile(path.join(_dirname, 'ui', 'article-two.html'));
-});
+var articles =  {
+  'article-one' :{
+    title : 'Article One | Shriram',
+    heading : 'Article One',
+    date : 'Feb 13 2018',
+    content : `
+      <p>This is article one.This is my first article.This is article one.This is my first article.
+        This is article one.This is my first article
+      </p>
 
-app.get('/article-three', function (req, res) {
-  res.sendFile(path.join(_dirname, 'ui', 'article-three.html'));
+      <p>This is article one.This is my first article.This is article one.This is my first article.
+        This is article one.This is my first article
+      </p>
+
+      <p>This is article one.This is my first article.This is article one.This is my first article.
+        This is article one.This is my first article
+      </p>`
+  },
+  
+  'article-two' :{
+    title : 'Article Two | Shriram',
+    heading : 'Article Two',
+    date : 'Feb 14 2018',
+    content : `
+      <p>This is article two.This is my Second article.This is article one.This is my first article.
+        This is article one.This is my first article
+      </p>
+
+      <p>This is article two.This is my Second article.This is article one.This is my first article.
+        This is article one.This is my first article
+      </p>
+
+      <p>This is article two.This is my Second article.This is article one.This is my first article.
+        This is article one.This is my first article
+      </p>`
+  },
+  
+  'article-three' :{
+    title : 'Article Three | Shriram',
+    heading : 'Article Three',
+    date : 'Feb 13 2018',
+    content : `
+      <p>This is article thee.This is my third article.This is article one.This is my first article.
+        This is article one.This is my first article
+      </p>
+
+      <p>This is article three.This is my third article.This is article one.This is my first article.
+        This is article one.This is my first article
+      </p>
+
+      <p>This is article three.This is my third article.This is article one.This is my first article.
+        This is article one.This is my first article
+      </p>`
+  }
+
+};
+
+function createTemplate(data) {
+  var title = data.title;
+  var date = data.date;
+  var heading = data.heading;
+  var content = data.content;
+
+  var htmlTemplate = `
+    <html>
+    <head>
+      <title>${title}</title>
+      <meta name="viewport" content="width = device-width, initial-scale = 1" /> 
+      <link href="/ui/style.css" rel="stylesheet">
+    </head>
+    <body>
+      <div class="container">
+        <div>
+          <a href="/">Home</a>
+        </div>
+        <hr />
+        <h1>
+          ${heading}
+        </h1>
+        <div>
+          ${date}
+        </div>
+        <div>
+          ${content}
+        </div>
+     </div>
+   </body>
+   </html>`;
+
+  return htmlTemplate;
+}
+
+app.get('/:articleName', function (req, res) {
+  var articleName = req.params.articleName;
+  res.send(createTemplate(articles[articleName]));
 });
 
 // Do not change port, otherwise your app won't run on IMAD servers
