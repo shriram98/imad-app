@@ -29,7 +29,6 @@ app.get('/counter', function(req, res) {
 });
 
 var todo = [];
-var sendList = "";
 app.get('/getDetails/:text', function(req, res) {
   var name = req.params.text;
   todo.push(name);
