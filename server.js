@@ -21,6 +21,18 @@ app.get('/ui/madi.png', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'madi.png'));
 });
 
+var counter  = 0;
+
+app.get('/counter', function(req, res) {
+  counter = counter + 1;
+  res.send(counter.toString());
+});
+
+var todo = [];
+var sendList = "";
+app.get('/getDetails/:text', function(req, res) {
+  var name = req.params.text;
+  
 
 var articles =  {
   'article-one' :{
