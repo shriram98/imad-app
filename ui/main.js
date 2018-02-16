@@ -1,11 +1,36 @@
-var button = document.getElementById("counter");
 
+var newButton = document.getElementById("res");
+newButton.onclick = function() {
+  document.getElementById("content").innerHTML = "this button is working";
+  var text = document.getElementById("inp").value;
+  var parsedHTML = "";
+  var newRequest = new XMLHttpRequest();
+
+  newRequest.onreadystatechange = function() {
+    if(newRequest.readyState === XMLHttpRequest.DONE) {
+      if(newRequest.status === 200) {
+        var result = newRequest.responseText;
+        result = JSON.parse(result);
+        var x;
+        for(x=0; x<result.length; x++) {
+          parsedHTML += "<li>" + result[x] + "</li>";
+        }
+        document.getElementById("content").innerHTML = parsedHTML;
+      }
+    }
+  }
+  var url = 'http://localhost:8080/getDetails/' + text;
+  newRequest.open('GET',url, true);
+  newRequest.send(null);
+};
+
+var button = document.getElementById("counter");
 button.onclick = function() {
   //make a request to end point
 
   var request = new XMLHttpRequest();
 
-  //capture and store the result 
+  //capture and store the result
   request.onreadystatechange = function() {
     if (request.readyState === XMLHttpRequest.DONE) {
       //take some action
@@ -21,22 +46,3 @@ button.onclick = function() {
   request.open('GET', 'http://localhost:8080/counter', true);
   request.send(null);
 };
-
-
-document.getElementById("res").onclick = function() {
-  var text = document.getElementById("inp").value;
-  var requestDetails = new XMLHttpRequest();
-
-  request.onreadystatechange = function() {
-    if ( request.readyState === XMLHttpRequest.DONE) {
-      if(request.status === 200) {
-        var details = request.responseText;
-        details = JSON.parse(details);
-        document.getElementById("content").innerHTML = details;
-      } 
-    }
-    //make the request
-    request.open('GET', 'http://localhost:8080/getDetails/${text}', true);
-    request.send(null);
-  }
-}
