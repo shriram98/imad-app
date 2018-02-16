@@ -32,7 +32,9 @@ var todo = [];
 var sendList = "";
 app.get('/getDetails/:text', function(req, res) {
   var name = req.params.text;
-  
+  todo.push(name);
+  res.send(JSON.stringify(todo));
+});  
 
 var articles =  {
   'article-one' :{
